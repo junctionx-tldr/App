@@ -11,10 +11,12 @@ void main() {
   // generate random bars
   runApp(MySlider());
 }
+ var barWidth = 0.0;
 
-class MySlider extends StatelessWidget {
+class MySlider extends StatelessWidget {  
   @override
   Widget build(BuildContext context) {
+     
     return MaterialApp(
       home: TimeSpanSlider(),
     );
@@ -33,7 +35,6 @@ class TimeSpanSliderState extends State<TimeSpanSlider> {
   
 static List<int> bars = [];
 
-  static const barWidth = 5.0;
   double bar1Position = 1.0;
 
 @override
@@ -70,7 +71,9 @@ var currentHour = 1;
   @override
   Widget build(BuildContext context) {
     int i = 0;
-
+ barWidth = (MediaQuery.of(context).size.width/24);
+      print("BARWIDTH:" + barWidth.toString());
+      print("MQ:" + MediaQuery.of(context).size.width.toString());
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
@@ -88,7 +91,7 @@ var currentHour = 1;
                 return Container(
                   color: Colors.blueAccent,
                   height: height.toDouble(),
-                  width: 5.0,
+                  width: barWidth,
                 );
               }).toList(),
             ),
@@ -100,7 +103,7 @@ var currentHour = 1;
                 setState(() {
                   
                   bar1Position += details.delta.dx;
-                  currentHour = ((bar1Position/120)*24).round();
+                  currentHour = ((bar1Position/(24*barWidth))*24).round();
                   startTimer();
                 });
               },
@@ -127,9 +130,9 @@ class Bar extends StatelessWidget {
       child: GestureDetector(
         onHorizontalDragUpdate: callback,
         child: Container(
-          color: Colors.orangeAccent.withOpacity(0.5),
+          color: Colors.orangeAccent,
           height: 200.0,
-          width: 5.0,
+          width: barWidth,
         ),
       ),
     );

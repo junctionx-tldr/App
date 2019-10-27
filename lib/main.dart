@@ -10,9 +10,15 @@ import 'dart:ui' as ui;
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:tldr/slider.dart';
 import 'pathData.dart';
+import 'package:splashscreen/splashscreen.dart';
 
-void main() => runApp(MyApp());
+void main(){
+  runApp(new MaterialApp( 
+    debugShowCheckedModeBanner: false,
 
+    home: new MyApp(),
+  ));
+}
 class Station {
   Station(this.latLng, this.serial, this.description);
   LatLng latLng;
@@ -53,10 +59,38 @@ Future<Map<String, dynamic>> _makeGetRequest() async {
   // TODO convert json to object...
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => new _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return new SplashScreen(
+      seconds: 14,
+      navigateAfterSeconds: new TldrApp(),
+      title: new Text('TL;DR',
+      style: new TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20.0
+      ),),
+      image: new Image.network('https://www.freepngimg.com/download/map/66959-map-google-icons-maps-computer-systems-navigation.png'),
+      backgroundColor: Colors.white,
+      styleTextUnderTheLoader: new TextStyle(),
+      photoSize: 100.0,
+      onClick: ()=>print("Flutter Egypt"),
+      loaderColor: Colors.blueAccent
+    );
+  }
+}
+
+class TldrApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+          debugShowCheckedModeBanner: false,
+
       title: 'Flutter Google Maps Demo',
       home: MapSample(),
     );
